@@ -2,77 +2,77 @@
 
 ![Skate Park App Logo](/public/img/favicon.png)
 
-**Versión:** 2.0.0
+**Version:** 2.0.0
 
-## Descripción
+## Description
 
-Skate Park App es una aplicación web diseñada para administrar deportistas de skate y gestionar la información de las personas involucradas en el mundo del skateboarding. Hemos utilizado tecnologías como Handlebars para las vistas, Express para el backend, Bootstrap para el frontend y PostgreSQL para la base de datos.
+Skate Park App is a web application designed to manage skateboarding athletes and handle information related to individuals involved in the skateboarding world. We have utilized technologies such as Handlebars for views, Express for the backend, Bootstrap for the frontend, and PostgreSQL for the database.
 
-La aplicación permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en los registros de deportistas de skate, lo que facilita el seguimiento de su progreso y logros. Además, proporciona una interfaz intuitiva y fácil de usar para gestionar los datos de las personas y su participación en el skate park.
+The application allows for CRUD (Create, Read, Update, Delete) operations on skateboarding athlete records, making it easy to track their progress and achievements. Furthermore, it provides an intuitive and user-friendly interface for managing people's data and their involvement in the skate park.
 
-## Autor
+## Author
 
-**Autor:** Cristóbal Manzano
+**Author:** Cristóbal Manzano
 
-## Tabla de Contenidos
+## Table of Contents
 
 - [Skate Park App](#skate-park-app)
-  - [Descripción](#descripción)
-  - [Autor](#autor)
-  - [Tabla de Contenidos](#tabla-de-contenidos)
-  - [Instrucciones de Uso](#instrucciones-de-uso)
-    - [Prerrequisitos](#prerrequisitos)
-    - [Clonar el Repositorio](#clonar-el-repositorio)
-    - [Instalar Dependencias](#instalar-dependencias)
-    - [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
-    - [Iniciar la Aplicación](#iniciar-la-aplicación)
+  - [Description](#description)
+  - [Author](#author)
+  - [Table of Contents](#table-of-contents)
+  - [Usage Instructions](#usage-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Clone the Repository](#clone-the-repository)
+    - [Install Dependencies](#install-dependencies)
+    - [Database Configuration](#database-configuration)
+    - [Start the Application](#start-the-application)
   - [Scripts](#scripts)
-  - [Ejemplo de Implementación Actual](#ejemplo-de-implementación-actual)
-  - [Contribuciones](#contribuciones)
+  - [Current Implementation Example](#current-implementation-example)
+  - [Contributions](#contributions)
 
-## Instrucciones de Uso
+## Usage Instructions
 
-### Prerrequisitos
+### Prerequisites
 
-Asegúrate de tener las siguientes herramientas instaladas en tu sistema:
+Make sure you have the following tools installed on your system:
 
-- Node.js: Node.js es necesario para ejecutar los scripts del proyecto.
-- PostgreSQL: Se utiliza PostgreSQL como base de datos.
+- Node.js: Node.js is required to run the project's scripts.
+- PostgreSQL: PostgreSQL is used as the database.
 
-### Clonar el Repositorio
+### Clone the Repository
 
-Clona este repositorio utilizando Git. Abre tu terminal y ejecuta el siguiente comando:
+Clone this repository using Git. Open your terminal and execute the following command:
 
 ```bash
 git clone https://github.com/zanozano/skate-park-app.git
 ```
 
-### Instalar Dependencias
+### Install Dependencies
 
-Una vez que hayas clonado el repositorio, navega hasta la carpeta del proyecto y instala las dependencias utilizando npm:
+Once you have cloned the repository, navigate to the project folder and install the dependencies using npm:
 
 ```bash
 cd skate-park-app
 npm install
 ```
 
-### Configuración de la Base de Datos
+### Database Configuration
 
-Antes de iniciar la aplicación, debes configurar la conexión a la base de datos PostgreSQL. Asegúrate de tener una base de datos creada y actualiza la información de conexión en el archivo de configuración correspondiente.
+Before starting the application, you need to configure the connection to the PostgreSQL database. Make sure you have a database created and update the connection information in the corresponding configuration file.
 
-### Iniciar la Aplicación
+### Start the Application
 
-Para ejecutar la aplicación, utiliza el siguiente script:
+To run the application, use the following script:
 
 ```bash
 npm start
 ```
 
-La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-Para obtener actualizaciones en tiempo real de SCSS a CSS, utiliza el siguiente script después de instalar las dependencias:
+To get real-time updates from SCSS to CSS, use the following script after installing the dependencies:
 
 ```json
 "scripts": {
@@ -80,14 +80,14 @@ Para obtener actualizaciones en tiempo real de SCSS a CSS, utiliza el siguiente 
 }
 ```
 
-## Ejemplo de Implementación Actual
+## Current Implementation Example
 
-Puedes ver Skate Park App en acción visitando el siguiente enlace:
+You can see Skate Park App in action by visiting the following link:
 
-[Skate Park App](insertar-enlace-de-la-implementación)
+[Skate Park App](insert-link-to-the-implementation)
 
-## Contribuciones
+## Contributions
 
-Damos la bienvenida a contribuciones al proyecto Skate Park App. Para participar, sigue nuestras pautas para reportar problemas, solicitar características o enviar solicitudes de extracción en el repositorio.
+We welcome contributions to the Skate Park App project. To get involved, please follow our guidelines for reporting issues, requesting features, or submitting pull requests in the repository.
 
-Agradecemos tu interés en el proyecto Skate Park App. Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto con nosotros
+We appreciate your interest in the Skate Park App project. If you have any questions or suggestions, please don't hesitate to contact us
