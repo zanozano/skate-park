@@ -4,6 +4,7 @@ const app = express();
 const { engine } = require('express-handlebars');
 const expressFileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 // token cofig
 const jwt = require('jsonwebtoken');
@@ -17,7 +18,7 @@ const {
 	conseguirUsuario,
 	setDatosUsuario,
 	eliminarCuenta,
-} = require('./consultas');
+} = require('./src/services/request');
 
 // server
 app.listen(3000, () => {
@@ -53,12 +54,14 @@ app.engine(
 	'handlebars',
 	engine({
 		defaultLayout: 'main',
-		layoutsDir: `${__dirname}/views/mainLayout`,
+		layoutsDir: `${__dirname}/src/views/mainLayout`,
 	})
 );
 
 // engine handlebars
+app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'handlebars');
+
 
 // views
 // get home
@@ -228,17 +231,17 @@ app.get('/datos', (req, res) => {
 
 		err
 			? res.status(401).send({
-					error: '401 Unauthorized',
-					message: 'Usted no está autorizado para estar aquí',
-					token_error: err.message,
-			  })
+				error: '401 Unauthorized',
+				message: 'Usted no está autorizado para estar aquí',
+				token_error: err.message,
+			})
 			: res.render('datos', {
-					email,
-					nombre,
-					password,
-					anos_experiencia,
-					especialidad,
-			  });
+				email,
+				nombre,
+				password,
+				anos_experiencia,
+				especialidad,
+			});
 	});
 });
 
