@@ -12,12 +12,12 @@ const secretKey = 'Clave secreta';
 
 // import
 const {
-	consultarUsuarios,
-	nuevoUsuario,
-	setUsuarioStatus,
-	conseguirUsuario,
-	setDatosUsuario,
-	eliminarCuenta,
+	getUsers,
+	postUser,
+	putStatusUser,
+	getLogin,
+	putUser,
+	deleteUser,
 } = require('./src/services/request');
 
 // server
@@ -82,7 +82,7 @@ app.get('/registro', function (req, res) {
 // get administracion
 app.get('/admin', async (req, res) => {
 	try {
-		const usuarios = await consultarUsuarios();
+		const usuarios = await getUsers();
 		res.render('Admin', {
 			usuarios,
 		});
@@ -96,7 +96,7 @@ app.get('/admin', async (req, res) => {
 
 // get usuarios
 app.get('/usuarios', async (req, res) => {
-	const respuesta = await consultarUsuarios();
+	const respuesta = await getUsers();
 	res.send(respuesta);
 });
 
@@ -106,7 +106,7 @@ app.post('/usuario', async (req, res) => {
 	const { email, nombre, password, anhos, especialidad, nombre_foto } = req.body;
 
 	try {
-		const respuesta = await nuevoUsuario(
+		const respuesta = await postUser(
 			email,
 			nombre,
 			password,
@@ -138,7 +138,7 @@ app.post('/registrar', async (req, res) => {
 		);
 	} else {
 		try {
-			const respuesta = await nuevoUsuario(
+			const respuesta = await postUser(
 				email,
 				nombre,
 				password,
@@ -168,7 +168,7 @@ app.put('/usuarios', async (req, res) => {
 	const { id, estado } = req.body;
 
 	try {
-		const usuario = await setUsuarioStatus(id, estado);
+		const usuario = await putStatusUser(id, estado);
 		res.status(200).send(usuario);
 	} catch (e) {
 		res.status(500).send({
@@ -182,7 +182,7 @@ app.put('/usuarios', async (req, res) => {
 // post login verify account
 app.post('/verify', async (req, res) => {
 	const { email, password } = req.body;
-	const user = await conseguirUsuario(email, password);
+	const user = await getLogin(email, password);
 
 	if (email === '' || password === '') {
 		res.status(401).send({
@@ -248,7 +248,7 @@ app.get('/datos', (req, res) => {
 // DATOS.HANDLEBARS
 // get data users
 app.get('/datos_usuario', async (req, res) => {
-	const respuesta = await consultarUsuarios();
+	const respuesta = await getUsers();
 	res.send(respuesta);
 });
 
@@ -257,7 +257,7 @@ app.put('/datos_perfil', async (req, res) => {
 	const { email, nombre, password, anhos, especialidad } = req.body;
 
 	try {
-		const usuario = await setDatosUsuario(email, nombre, password, anhos, especialidad);
+		const usuario = await putUser(email, nombre, password, anhos, especialidad);
 		res.status(200).send(usuario);
 	} catch (e) {
 		res.status(500).send({
@@ -271,7 +271,7 @@ app.put('/datos_perfil', async (req, res) => {
 app.delete('/eliminar_cuenta/:email', async (req, res) => {
 	try {
 		const { email } = req.params;
-		const respuesta = await eliminarCuenta(email);
+		const respuesta = await deleteUser(email);
 		res.sendStatus(200).send(respuesta);
 	} catch (e) {
 		res.status(500).send({

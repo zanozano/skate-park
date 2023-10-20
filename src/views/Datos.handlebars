@@ -1,6 +1,4 @@
 <div>
-  <h1>Skate Park</h1>
-
   <div class="py-4">
     <h2>Datos del perfil</h2>
     <hr class="w-50 mb-5 m-auto" />
@@ -36,7 +34,7 @@
         <button class="btn btn-primary" onclick='editarDatos()'>Actualizar</button>
       </div>
       <div>
-        <button class="btn btn-danger" onclick='eliminarCuenta()'>Eliminar cuenta</button>
+        <button class="btn btn-danger" onclick='deleteUser()'>Eliminar cuenta</button>
       </div>
     </form>
   </div>
@@ -80,7 +78,7 @@
     }
   }
   // delete
-  const eliminarCuenta = async () => {
+  const deleteUser = async () => {
     await axios.delete(`http://localhost:3000/eliminar_cuenta/${email.value}`)
       .then(() => {
         alert('Cuenta eliminada con éxito');

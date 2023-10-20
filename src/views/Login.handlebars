@@ -1,37 +1,36 @@
-<div>
-  <h1>Skate Park</h1>
+<div class="container-block">
 
-  <div class="py-5">
-    <h2>Iniciar Sesión</h2>
-    <hr class="w-50 mb-5 m-auto" />
+  <div class="container-block__card animate__animated animate__backInUp">
+
+    <h2 class="container-block__title text-center">Welcome</h2>
 
     <form onsubmit="event.preventDefault();">
       <div class="form-group">
-        <div class="form-group">
-          <label>Email</label>
-          <input class="form-control w-50 m-auto mb-3" id='email' />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-control w-50 m-auto mb-3" id='password' />
-        </div>
+        <label class="container-block__label">Email</label>
+        <input class="form-control w-100 mb-3" placeholder="Enter email" id='email' />
       </div>
-      <button class="btn btn-success mb-3" onclick='verificacion()'>Ingresar</button>
-      <p>¿Aún no tienes cuenta? <a href="/registro">Regístrate</a></p>
+      <div class="form-group">
+        <label class="container-block__label">Password</label>
+        <input type="password" placeholder="Enter password" class="form-control w-100 mb-3" id='password' />
+      </div>
+      <button class="container-block__btn mb-3" onclick='verificacion()'>Login</button>
+      <div class="d-flex gap-2">
+        <p class="container-block__p">Don't have an account yet?</p>
+        <a class="container-block__a" href="/registro">Sign up</a>
+      </div>
     </form>
+
   </div>
+
 </div>
 
 <script>
-  // verify
   const verificacion = async () => {
-
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
     const payload = { email, password }
 
     try {
-
       const { data: token } = await axios.post('/verify', payload);
       alert(`Autenticación exitosa!`);
       // concat token url

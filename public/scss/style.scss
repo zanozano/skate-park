@@ -1,23 +1,117 @@
-@use "reset";
 @use "scroll-style";
 
-body {
-    background: #ffdc43;
-    color: #4a4a4a;
-    text-shadow: 0px 0px 1px black;
-    font-family: sans-serif;
-    text-align: center;
-    padding: 40px 100px;
+$san-felix-0: #ffffff;
+$san-felix-50: #ebffe5;
+$san-felix-100: #d1ffc7;
+$san-felix-200: #a6ff95;
+$san-felix-300: #6ffe58;
+$san-felix-400: #40f526;
+$san-felix-500: #1edb07;
+$san-felix-600: #11af01;
+$san-felix-700: #0f8506;
+$san-felix-800: #11650b;
+$san-felix-900: #12580f;
+$san-felix-950: #033102;
 
+body {
+    background: #ffff;
+    color: #1F3201;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    body {
+        overflow: auto;
+    }
+}
+
+.container-block {
+    display: flex;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+
+
+    &__card {
+        min-width: 320px;
+        color: $san-felix-900;
+        padding: 1.8rem;
+        background: linear-gradient(to bottom, $san-felix-500, $san-felix-700);
+        border-radius: 0.75rem;
+        box-shadow: 20px 20px 60px #d9d9d9,
+            -20px -20px 60px #ffffff;
+    }
+
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    &__label {
+        font-weight: 400;
+        color: $san-felix-0;
+    }
+
+    &__p {
+        color: $san-felix-0;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    &__a {
+        font-weight: 700;
+        color: $san-felix-200;
+
+        &:hover {
+            color: $san-felix-600;
+        }
+    }
+
+    &__btn {
+        width: 100%;
+        color: inherit;
+        background-color: $san-felix-300;
+        border: none;
+        padding: 0.6rem 1.8rem;
+        border-radius: 0.25rem;
+        font-weight: 600;
+        transition: all 0.4s;
+
+        &:hover {
+            background-color: $san-felix-500;
+            color: #fff;
+
+        }
+
+        &:active {
+            background-color: $san-felix-600;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.form-control {
+    text-align: left;
 }
 
 h1 {
+
     font-style: italic;
+}
+
+td {
+    background: linear-gradient(to bottom, #79b100, #49690b);
 }
 
 td,
 th {
     vertical-align: middle !important;
+
 }
 
 td div {

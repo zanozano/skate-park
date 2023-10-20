@@ -12,6 +12,7 @@
   "author": "Cristobal Manzano",
   "license": "ISC",
   "dependencies": {
+    "animate.css": "^4.1.1",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.1.3",
     "express": "^4.17.1",
