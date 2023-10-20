@@ -88,43 +88,43 @@ body {
   outline: none;
 }
 
-.form-control {
-  text-align: left;
+.container-table {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  border: 0;
+  border-collapse: collapse;
 }
-
-h1 {
-  font-style: italic;
+.container-table__title {
+  font-size: 2rem;
+  font-weight: 600;
 }
-
-td {
-  background: linear-gradient(to bottom, #79b100, #49690b);
+.container-table__table > :not(:first-child) {
+  border-top: 0;
 }
-
-td,
-th {
+.container-table__table th {
+  background: linear-gradient(to bottom, #1edb07, #0f8506);
+  color: #ffffff;
+  border: 0;
+}
+.container-table__table th:first-child {
+  border-top-left-radius: 0.75rem;
+}
+.container-table__table th:last-child {
+  border-top-right-radius: 0.75rem;
+}
+.container-table__table td,
+.container-table__table th {
   vertical-align: middle !important;
 }
-
-td div {
-  background-size: cover;
-  width: 60px;
-  height: 60px;
+.container-table__table tr:nth-child(odd) {
+  background-color: #fafafa;
 }
-
-tbody tr:nth-child(1) td div {
-  background-image: url("/tony.jpg");
+.container-table__table tr:nth-child(even) {
+  background-color: #efefef;
 }
-
-tbody tr:nth-child(2) td div {
-  background-image: url("/Evelien.jpg");
-}
-
-tbody tr:nth-child(3) td div {
-  background-image: url("/Danny.jpg");
-}
-
-input {
-  text-align: center;
+.container-table__img {
+  width: 100px;
+  border-radius: 0.75rem;
 }
 
 /*# sourceMappingURL=style.css.map */
