@@ -1,12 +1,12 @@
 # TrickTrack
 
-![Skate Park App Logo](/public/img/favicon.svg)
+![TrickTrack App Logo](/public/img/favicon.svg)
 
 **Version:** 2.0.0
 
 ## Description
 
-Skate Park App is a web application designed to manage skateboarding athletes and handle information related to individuals involved in the skateboarding world. We have utilized technologies such as Handlebars for views, Express for the backend, Bootstrap for the frontend, and PostgreSQL for the database.
+TrickTrack App is a web application designed to manage skateboarding athletes and handle information related to individuals involved in the skateboarding world. We have utilized technologies such as Handlebars for views, Express for the backend, Bootstrap for the frontend, and PostgreSQL for the database.
 
 The application allows for CRUD (Create, Read, Update, Delete) operations on skateboarding athlete records, making it easy to track their progress and achievements. Furthermore, it provides an intuitive and user-friendly interface for managing people's data and their involvement in the skate park.
 
@@ -44,7 +44,7 @@ Make sure you have the following tools installed on your system:
 Clone this repository using Git. Open your terminal and execute the following command:
 
 ```bash
-git clone https://github.com/zanozano/skate-park-app.git
+git clone https://github.com/zanozano/tricktrack-web.git
 ```
 
 ### Install Dependencies
@@ -52,7 +52,7 @@ git clone https://github.com/zanozano/skate-park-app.git
 Once you have cloned the repository, navigate to the project folder and install the dependencies using npm:
 
 ```bash
-cd skate-park-app
+cd tricktrack-web
 npm install
 ```
 
@@ -82,12 +82,12 @@ To get real-time updates from SCSS to CSS, use the following script after instal
 
 ## Current Implementation Example
 
-You can see Skate Park App in action by visiting the following link:
+You can see TrickTrack App in action by visiting the following link:
 
-[Skate Park App](insert-link-to-the-implementation)
+[TrickTrack App](insert-link-to-the-implementation)
 
 ## Contributions
 
-We welcome contributions to the Skate Park App project. To get involved, please follow our guidelines for reporting issues, requesting features, or submitting pull requests in the repository.
+We welcome contributions to the TrickTrack App project. To get involved, please follow our guidelines for reporting issues, requesting features, or submitting pull requests in the repository.
 
-We appreciate your interest in the Skate Park App project. If you have any questions or suggestions, please don't hesitate to contact us
+We appreciate your interest in the TrickTrack App project. If you have any questions or suggestions, please don't hesitate to contact us
