@@ -1,0 +1,36 @@
+<div class="container home-container">
+    <h2>Skaters List</h2>
+    {{> participantList}}
+</div>
+
+<script>
+    let url = 'http://localhost:3000/user';
+    let tbody = document.getElementById('body');
+    let users = [];
+    window.onload = getData();
+    async function getData() {
+        await axios.get(url + 's').then((data) => {
+            users = data.data;
+            let estado;
+
+            users.forEach((c, i) => {
+                if (c.estado == false) {
+                    estado = `<td class="align-middle"><span class="badge text-bg-warning">Pending</span></td>`;
+                } else {
+                    estado = `<td class="align-middle"><span class="badge text-bg-success">Approved</span></td>`
+                }
+                const url = `/uploads/${c.foto}`
+                tbody.innerHTML += `
+          <tr>
+            <td class="align-middle">${i + 1}</td>
+            <td class="align-middle"><img src='${url}'></td>
+            <td class="align-middle">${c.nombre}</td>
+            <td class="align-middle">${c.anos_experiencia}</td>
+            <td class="align-middle">${c.especialidad}</td>
+            ${estado}
+          </tr>
+        `
+            });
+        })
+    }
+</script>

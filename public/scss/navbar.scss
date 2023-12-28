@@ -1,0 +1,15 @@
+.navbar {
+    @media (min-width: 992px) {
+        height: 86px;
+    }
+}
+
+.navbar .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.offcanvas-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+}

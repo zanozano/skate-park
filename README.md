@@ -1,6 +1,6 @@
-# Skate Park App
+# TrickTrack
 
-![Skate Park App Logo](/public/img/favicon.png)
+![Skate Park App Logo](/public/img/favicon.svg)
 
 **Version:** 2.0.0
 
@@ -16,7 +16,7 @@ The application allows for CRUD (Create, Read, Update, Delete) operations on ska
 
 ## Table of Contents
 
-- [Skate Park App](#skate-park-app)
+- [TrickTrack](#tricktrack)
   - [Description](#description)
   - [Author](#author)
   - [Table of Contents](#table-of-contents)

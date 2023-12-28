@@ -1,18 +1,22 @@
-// dependencies
 const express = require('express');
 const app = express();
 const { engine } = require('express-handlebars');
 const expressFileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const path = require('path');
+const userRoutes = require('./src/routes/viewRoutes');
 
-// token cofig
+const config = require('./config');
+const PORT = config.port;
+
+app.listen(PORT, () => {
+	console.log(`Server is running on Port ${PORT}`);
+});
+
 const jwt = require('jsonwebtoken');
-const secretKey = 'Clave secreta';
+const secretKey = config.secretKey;
 
-// import
-const {
-	getUsers,
+const { getUsers,
 	postUser,
 	putStatusUser,
 	getLogin,
@@ -20,89 +24,46 @@ const {
 	deleteUser,
 } = require('./src/services/request');
 
-// server
-app.listen(3000, () => {
-	console.log('Server on in Port 3000');
-});
-
-// static //
-// public
 app.use(express.static(__dirname + '/public'));
 
-// css
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-
-// body-parser
-app.use(
-	bodyParser.urlencoded({
-		extended: false,
-	})
-);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// file size config
 app.use(
 	expressFileUpload({
 		limits: 5000000,
 		abortOnLimit: true,
-		responseOnLimit: 'El tamaño de la imagen supera el limite permitido',
+		responseOnLimit: 'The image size exceeds the allowed limit',
 	})
 );
 
-// handlebars
 app.engine(
 	'handlebars',
 	engine({
 		defaultLayout: 'main',
-		layoutsDir: `${__dirname}/src/views/mainLayout`,
+		layoutsDir: path.join(__dirname, 'src/views/layouts'),
+		partialsDir: path.join(__dirname, 'src/views/partials'),
+		helpers: {
+			isAuthenticated: function () {
+				return localStorage.getItem('authToken') !== null;
+			},
+		},
 	})
 );
 
-// engine handlebars
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'handlebars');
 
+app.use('/', userRoutes);
 
-// views
-// get home
-app.get('/', function (req, res) {
-	res.render('Home');
+//*
+app.get('/users', async (req, res) => {
+	const data = await getUsers();
+	res.send(data);
 });
 
-// get login
-app.get('/login', function (req, res) {
-	res.render('Login');
-});
-
-// get registro
-app.get('/registro', function (req, res) {
-	res.render('Registro');
-});
-
-// get administracion
-app.get('/admin', async (req, res) => {
-	try {
-		const usuarios = await getUsers();
-		res.render('Admin', {
-			usuarios,
-		});
-	} catch (e) {
-		res.status(500).send({
-			error: `Algo salió mal... ${e}`,
-			code: 500,
-		});
-	}
-});
-
-// get usuarios
-app.get('/usuarios', async (req, res) => {
-	const respuesta = await getUsers();
-	res.send(respuesta);
-});
-
-// post usuarios
 app.post('/usuario', async (req, res) => {
-	// body parse
+
 	const { email, nombre, password, anhos, especialidad, nombre_foto } = req.body;
 
 	try {
@@ -117,25 +78,21 @@ app.post('/usuario', async (req, res) => {
 		res.status(201).send(respuesta);
 	} catch (e) {
 		res.status(500).send({
-			error: `Algo salió mal... ${e}`,
+			error: `Something went wrong... ${e}`,
 			code: 500,
 		});
 	}
 });
 
 // post upload photo
-app.post('/registrar', async (req, res) => {
-	// body content
+app.post('/register_user', async (req, res) => {
+
 	const { email, nombre, password, password_2, anhos, especialidad } = req.body;
 	const { foto } = req.files;
 	const { name } = foto;
 
-	// validate same password
 	if (password !== password_2) {
-		// alert
-		res.send(
-			'<script script> alert("Las contraseñas no coinciden."); window.location.href = "/registro"; </script>'
-		);
+		res.status(400).json({ success: false, message: 'Passwords do not match' });
 	} else {
 		try {
 			const respuesta = await postUser(
@@ -147,23 +104,18 @@ app.post('/registrar', async (req, res) => {
 				name
 			).then(() => {
 				foto.mv(`${__dirname}/public/uploads/${name}`, (err) => {
-					console.log(respuesta);
-					res.send(
-						'<script>alert("Se ha registrado con éxito."); window.location.href = "/login"; </script>'
-					);
+					console.log(respuesta)
+					res.status(200).json({ success: true, message: 'Registration successful' });
 				});
 			});
 		} catch (e) {
-			res.status(500).send({
-				error: `Algo salió mal... ${e}`,
-				code: 500,
-			});
+			res.status(500).json({ success: false, message: `Something went wrong... ${e}` });
 		}
 	}
 });
 
 // put update users
-app.put('/usuarios', async (req, res) => {
+app.put('/update_user', async (req, res) => {
 	//body parser update
 	const { id, estado } = req.body;
 
@@ -172,7 +124,7 @@ app.put('/usuarios', async (req, res) => {
 		res.status(200).send(usuario);
 	} catch (e) {
 		res.status(500).send({
-			error: `Algo salió mal... ${e}`,
+			error: `Something went wrong... ${e}`,
 			code: 500,
 		});
 	}
@@ -186,7 +138,7 @@ app.post('/verify', async (req, res) => {
 
 	if (email === '' || password === '') {
 		res.status(401).send({
-			error: 'Debe llenar todos los campos',
+			error: 'Please fill out all the fields',
 			code: 401,
 		});
 	} else {
@@ -203,14 +155,14 @@ app.post('/verify', async (req, res) => {
 			} else {
 				// not approved
 				res.status(401).send({
-					error: 'El registro de este usuario no ha sido aprobado',
+					error: 'The registration for this user has not been approved',
 					code: 401,
 				});
 			}
 		} else {
 			// not registered
 			res.status(404).send({
-				error: 'Este usuario no está registrado en la base de datos o la contraseña es incorrecta.',
+				error: 'This user is not registered, or the password is incorrect',
 				code: 404,
 			});
 		}
@@ -218,7 +170,7 @@ app.post('/verify', async (req, res) => {
 });
 
 // get datos
-app.get('/datos', (req, res) => {
+app.get('/profile', (req, res) => {
 	const { token } = req.query;
 	jwt.verify(token, secretKey, (err, decoded) => {
 		const { data } = decoded;
@@ -232,7 +184,7 @@ app.get('/datos', (req, res) => {
 		err
 			? res.status(401).send({
 				error: '401 Unauthorized',
-				message: 'Usted no está autorizado para estar aquí',
+				message: 'You are not authorized to be here',
 				token_error: err.message,
 			})
 			: res.render('datos', {
@@ -247,13 +199,13 @@ app.get('/datos', (req, res) => {
 
 // DATOS.HANDLEBARS
 // get data users
-app.get('/datos_usuario', async (req, res) => {
+app.get('/user_profiles', async (req, res) => {
 	const respuesta = await getUsers();
 	res.send(respuesta);
 });
 
 // put update data user
-app.put('/datos_perfil', async (req, res) => {
+app.put('/update_user_profile', async (req, res) => {
 	const { email, nombre, password, anhos, especialidad } = req.body;
 
 	try {
@@ -261,21 +213,21 @@ app.put('/datos_perfil', async (req, res) => {
 		res.status(200).send(usuario);
 	} catch (e) {
 		res.status(500).send({
-			error: `Algo salió mal... ${e}`,
+			error: `Something went wrong... ${e}`,
 			code: 500,
 		});
 	}
 });
 
 // delete data user
-app.delete('/eliminar_cuenta/:email', async (req, res) => {
+app.delete('/delete_account/:email', async (req, res) => {
 	try {
 		const { email } = req.params;
 		const respuesta = await deleteUser(email);
 		res.sendStatus(200).send(respuesta);
 	} catch (e) {
 		res.status(500).send({
-			error: `Algo salió mal... ${e}`,
+			error: `Something went wrong... ${e}`,
 			code: 500,
 		});
 	}

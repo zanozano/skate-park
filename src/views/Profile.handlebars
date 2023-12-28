@@ -41,6 +41,14 @@
 </div>
 
 <script>
+  const storedToken = localStorage.getItem('authToken');
+
+  if (storedToken) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+  } else {
+    window.location.href = '/login';
+  }
+
   let email = document.getElementById('email');
   let nombre = document.getElementById('nombre');
   let password = document.getElementById('password');
