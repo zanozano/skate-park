@@ -8,36 +8,36 @@
   <form method='POST' enctype='multipart/form-data' action='http://localhost:3000/register_user'>
     <div class="form-group">
       <label>Name</label>
-      <input class="form-control form-control-lg" id='nombre' name='nombre' placeholder="Enter your name" />
+      <input class="form-control" id='nombre' name='nombre' placeholder="Enter your name" />
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input class="form-control form-control-lg" id='email' name='email' placeholder="Enter your email" />
+      <input class="form-control" id='email' name='email' placeholder="Enter your email" />
     </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" class="form-control form-control-lg" id='password' name='password'
-        placeholder="Enter your password" />
-    </div>
-    <div class="form-group">
-      <label>Reenter Password</label>
-      <input type="password" class="form-control form-control-lg" id='password-2' name='password_2'
-        placeholder="Reenter your password" />
+    <div class="row">
+      <div class="form-group col-6">
+        <label>Password</label>
+        <input type="password" class="form-control" id='password' name='password' placeholder="Enter your password" />
+      </div>
+      <div class="form-group col-6">
+        <label>Reenter Password</label>
+        <input type="password" class="form-control" id='password-2' name='password_2'
+          placeholder="Reenter your password" />
+      </div>
     </div>
     <div class="row">
       <div class="form-group col-6">
         <label>Experience</label>
-        <input class="form-control form-control-lg" id='anhos' name='anhos' placeholder="Enter your experience" />
+        <input class="form-control" id='anhos' name='anhos' placeholder="Enter your experience" />
       </div>
       <div class="form-group col-6">
         <label class="container-block__label">Skill</label>
-        <input class="form-control form-control-lg" id='especialidad' name='especialidad'
-          placeholder="Enter your skill" />
+        <input class="form-control" id='especialidad' name='especialidad' placeholder="Enter your skill" />
       </div>
     </div>
     <div class="form-group">
       <label>Profile Photo</label>
-      <input class="form-control form-control-lg" type="file" name='foto' id='foto' />
+      <input class="form-control" type="file" name='foto' id='foto' />
     </div>
     <button type='submit'>Sign up</button>
 

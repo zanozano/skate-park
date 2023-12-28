@@ -1,5 +1,6 @@
 @use "scroll-style";
 @use "navbar";
+@use "login";
 
 :root {
     --alabaster-50: #fafafa;
@@ -20,7 +21,7 @@
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .main {
@@ -61,92 +62,6 @@ body {
 }
 
 
-.login-container {
-    background-color: var(--alabaster-50);
-    box-shadow: 20px 20px 60px rgba(0, 0, 0, .2), -20px -20px 60px rgba(0, 0, 0, .2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.2rem;
-    height: 100vh;
-    padding: 0 8rem;
-    position: absolute;
-    width: 700px;
-    z-index: 10;
-
-    @media (max-width: 700px) {
-        padding: 12rem 2.6rem;
-        width: 100%;
-    }
-
-    &>a:first-child {
-        align-items: center;
-        color: rgba(0, 0, 0, .6);
-        cursor: pointer;
-        display: flex;
-        font-weight: 700;
-        gap: 0.8rem;
-        left: 44px;
-        position: absolute;
-        top: 44px;
-    }
-
-    & h2 {
-        font-size: 2.8rem;
-        margin-bottom: 2rem;
-        margin: 0;
-
-        & span {
-            color: var(--felix-500);
-        }
-
-        @media (max-width: 700px) {
-            font-size: 2.6rem;
-        }
-    }
-
-    & button {
-        background-color: var(--felix-500);
-        border-radius: 0.6rem;
-        border: none;
-        color: inherit;
-        color: var(--alabaster-50);
-        font-weight: 600;
-        padding: 0.6rem 1.8rem;
-        transition: all 0.4s;
-        width: 100%;
-
-        &:hover {
-            background-color: var(--san-felix-500);
-            color: #fff;
-
-        }
-
-        &:active {
-            background-color: var(--san-felix-600);
-        }
-
-        &:focus {
-            outline: none;
-        }
-    }
-
-    & form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-    }
-
-    & p {
-        margin: 0;
-    }
-
-    & a {
-        color: var(--felix-500);
-        font-weight: 600;
-        text-decoration: none;
-    }
-}
 
 
 .footer-container {
