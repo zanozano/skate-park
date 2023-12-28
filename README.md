@@ -1,5 +1,6 @@
 # TrickTrack
 
+![TrickTrack App Logo](/public/img/favicon.svg)
 
 **Version:** 2.0.0
 
