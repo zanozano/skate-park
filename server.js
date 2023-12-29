@@ -189,10 +189,6 @@ app.get('/user_profile', (req, res) => {
 	});
 });
 
-// app.get('/user_profiles', async (req, res) => {
-// 	const users = await getUsers();
-// 	res.send(users);
-// });
 
 app.put('/update_user_profile', async (req, res) => {
 	const { email, nombre, password, anhos, especialidad } = req.body;
@@ -220,4 +216,16 @@ app.delete('/delete_account/:email', async (req, res) => {
 			code: 500,
 		});
 	}
+});
+
+//OK
+app.post('/signout', (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+			console.error('Failed to destroy session:', err);
+			res.status(500).send('Internal Server Error');
+		} else {
+			res.sendStatus(200);
+		}
+	});
 });
