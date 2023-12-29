@@ -1,12 +1,4 @@
-const { Pool } = require('pg');
-
-const pool = new Pool({
-	user: 'postgres',
-	host: 'localhost',
-	password: '0750manzano',
-	database: 'skatepark',
-	port: 5432,
-});
+const pool = require('./pool');
 
 async function getUsers() {
 	try {
@@ -23,8 +15,7 @@ async function postUser(email, name, password, experience, skill, photo) {
 
 	try {
 		const query = `
-		INSERT INTO skaters 
-		(email, name, password, experience, skill, photo, validate)
+		INSERT INTO skaters (email, name, password, experience, skill, photo, validate)
 		VALUES ($1, $2, $3, $4, $5, $6, false)
 		RETURNING *`;
 		const values = [email, name, password, experience, skill, photo];
