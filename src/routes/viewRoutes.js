@@ -30,9 +30,22 @@ router.get('/admin', async (req, res) => {
     try {
         const usuarios = await getUsers();
         res.render('Admin', { usuarios, layout: 'main' });
-    } catch (e) {
-        handleError(res, e);
+    } catch (error) {
+        handleError(res, error);
     }
+});
+
+const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.user) {
+        next();
+    } else {
+        res.redirect('/signin');
+    }
+};
+
+router.get('/profile', isAuthenticated, (req, res) => {
+    const user = req.session.user;
+    res.render('Profile', { user, layout: 'main' });
 });
 
 function handleError(res, error) {

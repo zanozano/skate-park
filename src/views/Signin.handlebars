@@ -27,7 +27,6 @@
 
     try {
       const { data: token } = await axios.post('/verify', payload);
-      localStorage.setItem('authToken', token);
 
       Swal.fire({
         icon: 'success',
@@ -37,7 +36,7 @@
       });
 
       setTimeout(() => {
-        window.location.href = `/profile?token=${token}`;
+        window.location.replace(`/profile?token=${token}`);
       }, 1500);
 
     } catch ({ response }) {

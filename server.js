@@ -5,6 +5,7 @@ const expressFileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const path = require('path');
 const userRoutes = require('./src/routes/viewRoutes');
+const session = require('express-session');
 
 const config = require('./config');
 const PORT = config.port;
@@ -15,6 +16,25 @@ app.listen(PORT, () => {
 
 const jwt = require('jsonwebtoken');
 const secretKey = config.secretKey;
+
+app.use(
+	session({
+		secret: secretKey,
+		resave: false,
+		saveUninitialized: true,
+	})
+);
+
+const isAuthenticated = (req, res, next) => {
+	if (req.session && req.session.user) {
+		res.locals.isAuthenticated = true;
+	} else {
+		res.locals.isAuthenticated = false;
+	}
+	next();
+};
+
+app.use(isAuthenticated);
 
 const { getUsers,
 	postUser,
@@ -45,48 +65,26 @@ app.engine(
 		partialsDir: path.join(__dirname, 'src/views/partials'),
 		helpers: {
 			isAuthenticated: function () {
-				return localStorage.getItem('authToken') !== null;
+				return !!req.session.user;
 			},
 		},
 	})
 );
 
-app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'handlebars');
+
+app.set('views', path.join(__dirname, 'src/views'));
 
 app.use('/', userRoutes);
 
-//*
+//OK
 app.get('/users', async (req, res) => {
 	const data = await getUsers();
 	res.send(data);
 });
 
-app.post('/usuario', async (req, res) => {
-
-	const { email, nombre, password, anhos, especialidad, nombre_foto } = req.body;
-
-	try {
-		const respuesta = await postUser(
-			email,
-			nombre,
-			password,
-			anhos,
-			especialidad,
-			nombre_foto
-		);
-		res.status(201).send(respuesta);
-	} catch (e) {
-		res.status(500).send({
-			error: `Something went wrong... ${e}`,
-			code: 500,
-		});
-	}
-});
-
-// post upload photo
+//OK
 app.post('/register_user', async (req, res) => {
-
 	const { email, nombre, password, password_2, anhos, especialidad } = req.body;
 	const { foto } = req.files;
 	const { name } = foto;
@@ -95,47 +93,53 @@ app.post('/register_user', async (req, res) => {
 		res.status(400).json({ success: false, message: 'Passwords do not match' });
 	} else {
 		try {
-			const respuesta = await postUser(
+			const newUser = await postUser(
 				email,
 				nombre,
 				password,
 				anhos,
 				especialidad,
 				name
-			).then(() => {
+			);
+
+			if (newUser) {
 				foto.mv(`${__dirname}/public/uploads/${name}`, (err) => {
-					console.log(respuesta)
-					res.status(200).json({ success: true, message: 'Registration successful' });
+					if (err) {
+						console.error('Error moving file:', err);
+						res.status(500).json({ success: false, message: 'Error moving file' });
+					} else {
+						console.log('INSERT NEW USER', newUser);
+						res.status(200).json({ success: true, message: 'Registration successful' });
+					}
 				});
-			});
-		} catch (e) {
-			res.status(500).json({ success: false, message: `Something went wrong... ${e}` });
+			} else {
+				res.status(500).json({ success: false, message: 'Error inserting user' });
+			}
+		} catch (error) {
+			console.error('Error in route handler:', error);
+			res.status(500).json({ success: false, message: `Something went wrong... ${error.message}` });
 		}
 	}
 });
 
-// put update users
-app.put('/update_user', async (req, res) => {
-	//body parser update
+//OK
+app.put('/approve_user', async (req, res) => {
 	const { id, estado } = req.body;
-
 	try {
-		const usuario = await putStatusUser(id, estado);
-		res.status(200).send(usuario);
-	} catch (e) {
+		const approveUser = await putStatusUser(id, estado);
+		res.status(200).send(approveUser);
+	} catch (error) {
 		res.status(500).send({
-			error: `Something went wrong... ${e}`,
+			error: `Something went wrong... ${error}`,
 			code: 500,
 		});
 	}
 });
 
-// LOGIN HANDLEBARS
-// post login verify account
+//OK
 app.post('/verify', async (req, res) => {
 	const { email, password } = req.body;
 	const user = await getLogin(email, password);
-
 	if (email === '' || password === '') {
 		res.status(401).send({
 			error: 'Please fill out all the fields',
@@ -143,7 +147,8 @@ app.post('/verify', async (req, res) => {
 		});
 	} else {
 		if (user.length != 0) {
-			if (user[0].estado === true) {
+			if (user.estado === true) {
+				req.session.user = user;
 				const token = jwt.sign(
 					{
 						exp: Math.floor(Date.now() / 1000) + 180,
@@ -153,14 +158,12 @@ app.post('/verify', async (req, res) => {
 				);
 				res.send(token);
 			} else {
-				// not approved
 				res.status(401).send({
 					error: 'The registration for this user has not been approved',
 					code: 401,
 				});
 			}
 		} else {
-			// not registered
 			res.status(404).send({
 				error: 'This user is not registered, or the password is incorrect',
 				code: 404,
@@ -169,42 +172,28 @@ app.post('/verify', async (req, res) => {
 	}
 });
 
-// get datos
-app.get('/profile', (req, res) => {
+//OK
+app.get('/user_profile', (req, res) => {
 	const { token } = req.query;
 	jwt.verify(token, secretKey, (err, decoded) => {
+		if (err) {
+			if (err.name === 'TokenExpiredError') {
+				return res.redirect('/signin');
+			}
+			return res.status(401).render('error', { error: err.message });
+		}
+
 		const { data } = decoded;
-
-		const email = data[0].email;
-		const nombre = data[0].nombre;
-		const password = data[0].password;
-		const anos_experiencia = data[0].anos_experiencia;
-		const especialidad = data[0].especialidad;
-
-		err
-			? res.status(401).send({
-				error: '401 Unauthorized',
-				message: 'You are not authorized to be here',
-				token_error: err.message,
-			})
-			: res.render('datos', {
-				email,
-				nombre,
-				password,
-				anos_experiencia,
-				especialidad,
-			});
+		const { email, nombre, anos_experiencia, especialidad } = data[0];
+		res.render('Profile', { email, nombre, anos_experiencia, especialidad });
 	});
 });
 
-// DATOS.HANDLEBARS
-// get data users
-app.get('/user_profiles', async (req, res) => {
-	const respuesta = await getUsers();
-	res.send(respuesta);
-});
+// app.get('/user_profiles', async (req, res) => {
+// 	const users = await getUsers();
+// 	res.send(users);
+// });
 
-// put update data user
 app.put('/update_user_profile', async (req, res) => {
 	const { email, nombre, password, anhos, especialidad } = req.body;
 
@@ -219,15 +208,15 @@ app.put('/update_user_profile', async (req, res) => {
 	}
 });
 
-// delete data user
+
 app.delete('/delete_account/:email', async (req, res) => {
 	try {
 		const { email } = req.params;
-		const respuesta = await deleteUser(email);
-		res.sendStatus(200).send(respuesta);
-	} catch (e) {
+		const deleteAccount = await deleteUser(email);
+		res.sendStatus(200).send(deleteAccount);
+	} catch (error) {
 		res.status(500).send({
-			error: `Something went wrong... ${e}`,
+			error: `Something went wrong... ${error}`,
 			code: 500,
 		});
 	}
