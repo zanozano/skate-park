@@ -68,7 +68,7 @@ app.engine(
 			...handlebarsHelpers,
 			...customHelpers,
 			isAuthenticated: function () {
-				return !!res.locals.isAuthenticated;
+				return !!req.session.user;
 			},
 		},
 	})
@@ -117,7 +117,6 @@ app.post('/register_user', async (req, res) => {
 	}
 });
 
-//OK
 app.put('/approve_user', async (req, res) => {
 	const { id, validate } = req.body;
 	try {
@@ -131,7 +130,6 @@ app.put('/approve_user', async (req, res) => {
 	}
 });
 
-//OK
 app.post('/verify', async (req, res) => {
 	const { email, password } = req.body;
 	const user = await getLogin(email, password);
@@ -167,7 +165,6 @@ app.post('/verify', async (req, res) => {
 	}
 });
 
-//OK
 app.get('/user_profile', (req, res) => {
 	const { token } = req.query;
 	jwt.verify(token, secretKey, (err, decoded) => {
@@ -184,7 +181,6 @@ app.get('/user_profile', (req, res) => {
 	});
 });
 
-
 app.put('/update_user_profile', async (req, res) => {
 	const { email, name, password, experience, skill } = req.body;
 
@@ -199,7 +195,6 @@ app.put('/update_user_profile', async (req, res) => {
 	}
 });
 
-
 app.delete('/delete_account/:email', async (req, res) => {
 	try {
 		const { email } = req.params;
@@ -213,14 +208,13 @@ app.delete('/delete_account/:email', async (req, res) => {
 	}
 });
 
-//OK
 app.post('/signout', (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
 			console.error('Failed to destroy session:', err);
 			res.status(500).send('Internal Server Error');
 		} else {
-			res.status(200);
+			res.status(200).send('OK');
 		}
 	});
 });
