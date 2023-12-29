@@ -51,6 +51,13 @@ app.use(
 	})
 );
 
+const handlebarsHelpers = require('handlebars-helpers')();
+const customHelpers = {
+	eq: function (a, b) {
+		return a === b;
+	},
+};
+
 app.engine(
 	'handlebars',
 	engine({
@@ -58,8 +65,10 @@ app.engine(
 		layoutsDir: path.join(__dirname, 'src/views/layouts'),
 		partialsDir: path.join(__dirname, 'src/views/partials'),
 		helpers: {
+			...handlebarsHelpers,
+			...customHelpers,
 			isAuthenticated: function () {
-				return !!req.session.user;
+				return !!res.locals.isAuthenticated;
 			},
 		},
 	})
@@ -195,7 +204,7 @@ app.delete('/delete_account/:email', async (req, res) => {
 	try {
 		const { email } = req.params;
 		const deleteAccount = await deleteUser(email);
-		res.sendStatus(200).send(deleteAccount);
+		res.status(200).send(deleteAccount);
 	} catch (error) {
 		res.status(500).send({
 			error: `Something went wrong... ${error}`,
@@ -211,7 +220,7 @@ app.post('/signout', (req, res) => {
 			console.error('Failed to destroy session:', err);
 			res.status(500).send('Internal Server Error');
 		} else {
-			res.sendStatus(200);
+			res.status(200);
 		}
 	});
 });

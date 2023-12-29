@@ -28,11 +28,25 @@
         </div>
         <div class="form-group">
           <label>Experience</label>
-          <input class="form-control" value='{{user.experience}}' id='experience' />
+          <select class="form-control" id='experience' name='experience'>
+            <option value="" disabled selected>Select an experience</option>
+            {{#each experience}}
+            <option value="{{this}}" {{#if (eq this ../user.experience)}}selected{{/if}}>
+              {{this}}
+            </option>
+            {{/each}}
+          </select>
         </div>
         <div class="form-group">
           <label>Skills</label>
-          <input class="form-control" value='{{user.skill}}' id='skill' />
+          <select class="form-control" id='skill' name='skill'>
+            <option value="" disabled selected>Select a skill</option>
+            {{#each skills}}
+            <option value="{{this}}" {{#if (eq this ../user.skill)}}selected{{/if}}>
+              {{this}}
+            </option>
+            {{/each}}
+          </select>
         </div>
       </div>
 
@@ -72,7 +86,7 @@
       }
 
       try {
-        await axios.put('http://localhost:3000/datos_perfil', payload)
+        await axios.put('http://localhost:3000/update_user_profile', payload)
           .then(() => {
             alert('Datos actualizados con éxito')
           });
