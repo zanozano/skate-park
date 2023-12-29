@@ -19,7 +19,6 @@ async function getUsers() {
 	}
 }
 
-//OK
 async function postUser(email, name, password, experience, skill, photo) {
 
 	try {
@@ -28,10 +27,8 @@ async function postUser(email, name, password, experience, skill, photo) {
 		(email, name, password, experience, skill, photo, validate)
 		VALUES ($1, $2, $3, $4, $5, $6, false)
 		RETURNING *`;
-
 		const values = [email, name, password, experience, skill, photo];
 		const result = await pool.query(query, values);
-
 		return result.rows[0];
 	} catch (error) {
 		console.error('Error in postUser:', error);
@@ -39,7 +36,6 @@ async function postUser(email, name, password, experience, skill, photo) {
 	}
 }
 
-//OK
 async function putStatusUser(id, validate) {
 	try {
 		const query = `UPDATE skaters SET validate = $1 WHERE id = $2 RETURNING *`;
@@ -66,16 +62,18 @@ async function getLogin(email, password) {
 
 async function putUser(email, name, password, experience, skill) {
 	try {
-		const request = await pool.query(
-			`UPDATE skaters SET 
-            name = '${name}',
-            password = '${password}',
-            experience = ${experience},
-            skill = '${skill}'
-            WHERE email = '${email}' RETURNING *`
-		);
-		const user = request.rows[0];
-		return user;
+		const query = `
+            UPDATE skaters
+            SET
+                name = $1,
+                password = $2,
+                experience = $3,
+                skill = $4
+            WHERE email = $5
+            RETURNING *`;
+		const values = [name, password, experience, skill, email];
+		const result = await pool.query(query, values);
+		return result.rows[0];
 	} catch (error) {
 		console.log('Error: ', error);
 	}
@@ -83,18 +81,14 @@ async function putUser(email, name, password, experience, skill) {
 
 async function deleteUser(email) {
 	try {
-		const request = await pool.query(`DELETE FROM skaters WHERE email = '${email}'`);
-		return request.rowCount;
+		const query = 'DELETE FROM skaters WHERE email = $1';
+		const values = [email];
+		const result = await pool.query(query, values);
+		return result.rowCount;
 	} catch (error) {
-		console.log('Error: ', error);
+		console.error('Error: ', error);
+		throw error;
 	}
 }
 
-module.exports = {
-	getUsers,
-	postUser,
-	putStatusUser,
-	getLogin,
-	putUser,
-	deleteUser,
-};
+module.exports = { getUsers, postUser, putStatusUser, getLogin, putUser, deleteUser };

@@ -36,13 +36,7 @@ const isAuthenticated = (req, res, next) => {
 
 app.use(isAuthenticated);
 
-const { getUsers,
-	postUser,
-	putStatusUser,
-	getLogin,
-	putUser,
-	deleteUser,
-} = require('./src/services/request');
+const { getUsers, postUser, putStatusUser, getLogin, putUser, deleteUser, } = require('./src/services/request');
 
 app.use(express.static(__dirname + '/public'));
 
