@@ -13,3 +13,35 @@
 
     </tbody>
 </table>
+
+<script>
+    let url = 'http://localhost:3000/user';
+    let tbody = document.getElementById('body');
+    let users = [];
+    window.onload = getData();
+    async function getData() {
+        await axios.get(url + 's').then((data) => {
+            users = data.data;
+            let validate;
+
+            users.forEach((c, i) => {
+                if (c.validate == false) {
+                    validate = `<td class="align-middle"><span class="badge text-bg-warning">Pending</span></td>`;
+                } else {
+                    validate = `<td class="align-middle"><span class="badge text-bg-success">Approved</span></td>`
+                }
+                const url = `/uploads/${c.photo}`
+                tbody.innerHTML += `
+          <tr>
+            <td class="align-middle">${i + 1}</td>
+            <td class="align-middle"><img src='${url}'></td>
+            <td class="align-middle">${c.name}</td>
+            <td class="align-middle">${c.experience}</td>
+            <td class="align-middle">${c.skill}</td>
+            ${validate}
+          </tr>
+        `
+            });
+        })
+    }
+</script>
