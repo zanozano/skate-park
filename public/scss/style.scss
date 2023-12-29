@@ -89,3 +89,20 @@ body {
         }
     }
 }
+
+
+.profile-container {
+    display: flex;
+    gap: 6rem;
+    width: 100%;
+
+    &>div img {
+        height: auto;
+        width: 200px;
+    }
+
+    &>form {
+        width: 100%;
+
+    }
+}

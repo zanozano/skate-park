@@ -20,16 +20,16 @@ async function getUsers() {
 }
 
 //OK
-async function postUser(email, nombre, password, anhos, especialidad, foto) {
+async function postUser(email, name, password, experience, skill, photo) {
 
 	try {
 		const query = `
 		INSERT INTO skaters 
-		(email, nombre, password, anos_experiencia, especialidad, foto, estado)
+		(email, name, password, experience, skill, photo, validate)
 		VALUES ($1, $2, $3, $4, $5, $6, false)
 		RETURNING *`;
 
-		const values = [email, nombre, password, anhos, especialidad, foto];
+		const values = [email, name, password, experience, skill, photo];
 		const result = await pool.query(query, values);
 
 		return result.rows[0];
@@ -40,10 +40,10 @@ async function postUser(email, nombre, password, anhos, especialidad, foto) {
 }
 
 //OK
-async function putStatusUser(id, estado) {
+async function putStatusUser(id, validate) {
 	try {
-		const query = `UPDATE skaters SET estado = $1 WHERE id = $2 RETURNING *`;
-		const values = [estado, id];
+		const query = `UPDATE skaters SET validate = $1 WHERE id = $2 RETURNING *`;
+		const values = [validate, id];
 		const result = await pool.query(query, values);
 		return result.rows[0];
 	} catch (error) {
@@ -64,14 +64,14 @@ async function getLogin(email, password) {
 	}
 }
 
-async function putUser(email, nombre, password, anhos, especialidad) {
+async function putUser(email, name, password, experience, skill) {
 	try {
 		const request = await pool.query(
 			`UPDATE skaters SET 
-            nombre = '${nombre}',
+            name = '${name}',
             password = '${password}',
-            anos_experiencia = ${anhos},
-            especialidad = '${especialidad}'
+            experience = ${experience},
+            skill = '${skill}'
             WHERE email = '${email}' RETURNING *`
 		);
 		const user = request.rows[0];

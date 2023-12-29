@@ -11,23 +11,23 @@
     async function getData() {
         await axios.get(url + 's').then((data) => {
             users = data.data;
-            let estado;
+            let validate;
 
             users.forEach((c, i) => {
-                if (c.estado == false) {
-                    estado = `<td class="align-middle"><span class="badge text-bg-warning">Pending</span></td>`;
+                if (c.validate == false) {
+                    validate = `<td class="align-middle"><span class="badge text-bg-warning">Pending</span></td>`;
                 } else {
-                    estado = `<td class="align-middle"><span class="badge text-bg-success">Approved</span></td>`
+                    validate = `<td class="align-middle"><span class="badge text-bg-success">Approved</span></td>`
                 }
-                const url = `/uploads/${c.foto}`
+                const url = `/uploads/${c.photo}`
                 tbody.innerHTML += `
           <tr>
             <td class="align-middle">${i + 1}</td>
             <td class="align-middle"><img src='${url}'></td>
-            <td class="align-middle">${c.nombre}</td>
-            <td class="align-middle">${c.anos_experiencia}</td>
-            <td class="align-middle">${c.especialidad}</td>
-            ${estado}
+            <td class="align-middle">${c.name}</td>
+            <td class="align-middle">${c.experience}</td>
+            <td class="align-middle">${c.skill}</td>
+            ${validate}
           </tr>
         `
             });

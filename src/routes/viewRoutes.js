@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getUsers } = require('../services/request');
+const { skills, experience } = require('../utils/selectData');
 
 const isAuthenticated = (req, res, next) => {
     if (req.session && req.session.user) {
@@ -36,7 +37,7 @@ router.get('/signin', (req, res) => {
 
 router.get('/signup', (req, res) => {
     try {
-        res.render('Signup', { layout: 'secondary' });
+        res.render('Signup', { layout: 'secondary', skills, experience });
     } catch (error) {
         handleError(res, error);
     }
@@ -54,7 +55,7 @@ router.get('/admin', async (req, res) => {
 router.get('/profile', isAuthenticated, (req, res) => {
     try {
         const user = req.session.user;
-        res.render('Profile', { user, layout: 'main' });
+        res.render('Profile', { user, layout: 'main', skills, experience });
     } catch (error) {
         handleError(res, error);
     }

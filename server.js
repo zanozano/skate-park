@@ -85,25 +85,17 @@ app.get('/users', async (req, res) => {
 
 //OK
 app.post('/register_user', async (req, res) => {
-	const { email, nombre, password, password_2, anhos, especialidad } = req.body;
-	const { foto } = req.files;
-	const { name } = foto;
+	const { name, email, password, password_2, experience, skill } = req.body;
+	const { photo } = req.files;
 
 	if (password !== password_2) {
 		res.status(400).json({ success: false, message: 'Passwords do not match' });
 	} else {
 		try {
-			const newUser = await postUser(
-				email,
-				nombre,
-				password,
-				anhos,
-				especialidad,
-				name
-			);
+			const newUser = await postUser(email, name, password, experience, skill, photo.name);
 
 			if (newUser) {
-				foto.mv(`${__dirname}/public/uploads/${name}`, (err) => {
+				photo.mv(`${__dirname}/public/uploads/${photo.name}`, (err) => {
 					if (err) {
 						console.error('Error moving file:', err);
 						res.status(500).json({ success: false, message: 'Error moving file' });
@@ -124,9 +116,9 @@ app.post('/register_user', async (req, res) => {
 
 //OK
 app.put('/approve_user', async (req, res) => {
-	const { id, estado } = req.body;
+	const { id, validate } = req.body;
 	try {
-		const approveUser = await putStatusUser(id, estado);
+		const approveUser = await putStatusUser(id, validate);
 		res.status(200).send(approveUser);
 	} catch (error) {
 		res.status(500).send({
@@ -147,7 +139,7 @@ app.post('/verify', async (req, res) => {
 		});
 	} else {
 		if (user.length != 0) {
-			if (user.estado === true) {
+			if (user.validate === true) {
 				req.session.user = user;
 				const token = jwt.sign(
 					{
@@ -184,17 +176,17 @@ app.get('/user_profile', (req, res) => {
 		}
 
 		const { data } = decoded;
-		const { email, nombre, anos_experiencia, especialidad } = data[0];
-		res.render('Profile', { email, nombre, anos_experiencia, especialidad });
+		const { email, name, experience, skill, photo } = data[0];
+		res.render('Profile', { email, name, experience, skill, photo });
 	});
 });
 
 
 app.put('/update_user_profile', async (req, res) => {
-	const { email, nombre, password, anhos, especialidad } = req.body;
+	const { email, name, password, experience, skill } = req.body;
 
 	try {
-		const usuario = await putUser(email, nombre, password, anhos, especialidad);
+		const usuario = await putUser(email, name, password, experience, skill);
 		res.status(200).send(usuario);
 	} catch (e) {
 		res.status(500).send({

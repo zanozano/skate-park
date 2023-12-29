@@ -190,4 +190,17 @@ body {
   margin: 0;
 }
 
+.profile-container {
+  display: flex;
+  gap: 6rem;
+  width: 100%;
+}
+.profile-container > div img {
+  height: auto;
+  width: 200px;
+}
+.profile-container > form {
+  width: 100%;
+}
+
 /*# sourceMappingURL=style.css.map */

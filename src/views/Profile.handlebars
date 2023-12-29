@@ -1,53 +1,59 @@
-<div>
-  <div class="py-4">
-    <h2>Datos del perfil</h2>
-    <hr class="w-50 mb-5 m-auto" />
+<div class="home-container">
+
+  <h2>Profile</h2>
+
+  <div class="profile-container">
+
+    <div>
+      <img src='/uploads/{{user.photo}}' alt="profile picture" />
+    </div>
 
     <form onsubmit="event.preventDefault();">
-      <div class="form-group row w-50 m-auto">
-        <div class="form-group col-12 col-sm-6">
-          <label>Email</label>
-          <input class="form-control m-auto" disabled value='{{user.email}}' id='email' />
+      <div class="form-group">
+        <label>Email</label>
+        <input class="form-control" disabled value='{{user.email}}' id='email' />
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" value='{{user.name}}' id='name' />
         </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Nombre</label>
-          <input class="form-control m-auto mb-3" value='{{user.nombre}}' id='nombre' />
+        <div>
+          <div class="form-group col-6">
+            <label>Password</label>
+            <input type="password" class="form-control" value='{{user.password}}' id='password' />
+          </div>
+          <div class="form-group col-6">
+            <label>Repeat password</label>
+            <input type="password" class="form-control" value='{{user.password}}' id='password-2' />
+          </div>
         </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Password</label>
-          <input type="password" class="form-control m-auto mb-3" value='{{user.password}}' id='password' />
+        <div class="form-group">
+          <label>Experience</label>
+          <input class="form-control" value='{{user.experience}}' id='experience' />
         </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Repita la password</label>
-          <input type="password" class="form-control m-auto mb-3" value='{{user.password}}' id='password-2' />
-        </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Años de experiencia</label>
-          <input class="form-control m-auto mb-3" value='{{user.anos_experiencia}}' id='anhos' />
-        </div>
-        <div class="form-group col-12 col-sm-6">
-          <label>Especialidad</label>
-          <input class="form-control m-auto mb-3" value='{{user.especialidad}}' id='especialidad' />
+        <div class="form-group">
+          <label>Skills</label>
+          <input class="form-control" value='{{user.skill}}' id='skill' />
         </div>
       </div>
-      <div class="mb-1">
-        <button class="btn btn-primary" onclick='editarDatos()'>Actualizar</button>
-      </div>
-      <div>
-        <button class="btn btn-danger" onclick='deleteUser()'>Eliminar cuenta</button>
-      </div>
+
+      <button class="btn btn-primary" onclick='editarDatos()'>Update Account</button>
+      <button class="btn btn-danger" onclick='deleteUser()'>Delete Account</button>
+
     </form>
   </div>
+
 </div>
+
+
 
 <script>
 
   let email = document.getElementById('email');
-  let nombre = document.getElementById('nombre');
+  let name = document.getElementById('name');
   let password = document.getElementById('password');
   let password_2 = document.getElementById('password-2');
-  let anhos = document.getElementById('anhos');
-  let especialidad = document.getElementById('especialidad');
+  let experience = document.getElementById('experience');
+  let skill = document.getElementById('skill');
 
   // edit
   const editarDatos = async () => {
@@ -59,10 +65,10 @@
       // payload
       let payload = {
         email: email.value,
-        nombre: nombre.value,
+        name: name.value,
         password: password.value,
-        anhos: anhos.value,
-        especialidad: especialidad.value,
+        experience: experience.value,
+        skill: skill.value,
       }
 
       try {
